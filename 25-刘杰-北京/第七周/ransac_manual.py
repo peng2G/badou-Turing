@@ -49,8 +49,7 @@ def ransac(data, model, sample_number, epoch, threshold):
     target = None
     for i in range(epoch):
         # 根据参数sample_number，选择k个随机点作为内群
-        dataIndex = np.arange(data.shape[0])
-        dataIndexRandomk = np.random.choice(dataIndex, sample_number)
+        dataIndexRandomk = np.random.choice(data.shape[0], sample_number)
         dataRandomK = data[dataIndexRandomk]
 
         # 选取除k个随机点之外的所有点作为验证模型的数据点
@@ -85,7 +84,7 @@ def main():
     model = liner()
     data = np.random.randint(1, 100, (100, 2))
     sample_k = 5
-    epoch = 10000
+    epoch = 100000
     threshold = 5
     ransac(data, model, sample_k, epoch, threshold)
 
