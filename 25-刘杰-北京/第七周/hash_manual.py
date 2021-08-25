@@ -11,7 +11,10 @@
 import cv2
 import numpy as np
 import argparse
+import matplotlib.pyplot as plt
 from 第六周 import noise_generator
+from imutils import paths
+
 
 def ahash(gray):
     """ 均值hash的实现
@@ -57,15 +60,33 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("-p","--path",required=True, help="path for input image")
     args = vars(ap.parse_args())
-    image = cv2.imread(args["path"])
+    imagePaths = np.array(list(paths.list_images(args["path"])))
+    random = np.random.choice(imagePaths.shape[0], 2, replace=False)
+
+    image = cv2.imread(imagePaths[random[0]])
     gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
-    gray_cmp = noise_generator.add_pepper_salt(gray, 0.2)
+    # gray_cmp = noise_generator.add_pepper_salt(gray, 0.2)
+
+    image_cmp = cv2.imread(imagePaths[random[1]])
+    gray_cmp = cv2.cvtColor(image_cmp, cv2.COLOR_BGR2GRAY)
+
     ah = ahash(gray)
     ah_cmp = ahash(gray_cmp)
     dh = ahash(gray)
     dh_cmp = ahash(gray_cmp)
-    print(cmpHash(ah, ah_cmp))
-    print(cmpHash(dh, dh_cmp))
+    result1 = cmpHash(ah, ah_cmp)
+    result2 = cmpHash(dh, dh_cmp)
+
+    # 用来正常显示中文标签
+    plt.rcParams['font.sans-serif'] = ['SimHei']
+
+    plt.subplot(221)
+    plt.imshow(cv2.cvtColor(image,cv2.COLOR_BGR2RGB))
+    plt.subplot(222)
+    plt.imshow(cv2.cvtColor(image_cmp,cv2.COLOR_BGR2RGB))
+    plt.text(-600, 800, '均值hash：{}'.format(result1))
+    plt.text(-600, 1000, '差值hash：{}'.format(result2))
+    plt.show()
 
 if __name__ == '__main__':
     main()
