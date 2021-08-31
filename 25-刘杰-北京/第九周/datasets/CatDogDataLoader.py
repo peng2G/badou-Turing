@@ -3,14 +3,17 @@
 
 '''
 @Project ：badou-Turing 
-@File    ：DatasetLoader.py
+@File    ：CatDogDataLoader.py
 @Author  ：luigi
 @Date    ：2021/8/31 4:44 下午 
 '''
 
-class DataLoader():
+class CatDogDataLoader():
     
-    def __init__(self, batch_size):
+    def __init__(self, dataset, batch_size):
+        pass
+
+
 
 
 
