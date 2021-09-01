@@ -5,5 +5,7 @@
 @Project ：badou-Turing 
 @File    ：__init__.py.py
 @Author  ：luigi
-@Date    ：2021/9/1 4:48 下午 
+@Date    ：2021/9/2 11:00 上午 
 '''
+
+from neural_networks.linear import Linear

@@ -3,7 +3,7 @@
 
 '''
 @Project ：badou-Turing 
-@File    ：Liner.py
+@File    ：Linear.py
 @Author  ：luigi
 @Date    ：2021/8/27 下午4:41 
 '''

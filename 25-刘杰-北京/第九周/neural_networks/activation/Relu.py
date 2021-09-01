@@ -12,9 +12,8 @@ import numpy as np
 
 class Relu():
 
-    def forward(self, input):
-        return np.clip(input,0, np.inf)
+    def __call__(self, input):
+        return self.forward(input)
 
-
-
-
+    def forward(self, z):
+        return np.clip(z, 0, np.inf)

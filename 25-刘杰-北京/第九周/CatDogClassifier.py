@@ -10,8 +10,10 @@
 
 from torch.utils.data import DataLoader
 from datasets.CatDogDataset import CatDogDataset
-from neural_networks import Liner
-from neural_networks import Relu
+from neural_networks.linear.Linear import Liner
+from neural_networks.activation.Relu import Relu
+from neural_networks.activation.Sigmoid import Sigmoid
+from neural_networks.loss.BCELoss import BCELoss
 
 def get_data(image_path):
     train = CatDogDataset(image_path)
@@ -20,28 +22,35 @@ def get_data(image_path):
 
 def get_model():
 
-    # model = [
-    #     Liner(784,100),
-    #     Relu(),
-    #     Liner(784,2)]
+    models = [
+        Liner(784,100),
+        Relu(),
+        Liner(100,1),
+        Sigmoid()
+        ]
 
-    model = Liner(784,100)
+    loss_fn = BCELoss()
 
-    return model
+
+    return models, loss_fn
 
 
 def main():
     image_path = "/Users/liujie/工作相关/data/test/*"
     trn_dl = get_data(image_path)
-    # model_list = get_model()
+    models, loss_fn = get_model()
 
 
     for ix, batch in enumerate(iter(trn_dl)):
+
         x, y =batch
-        # for model in model_list:
-        #     x = model(x)
-        x = Liner(784,100)(x)
+        for model in models:
+            x = model(x)
+        loss = loss_fn(x, y.numpy())
         print(x)
+        print(loss)
+        # print(x.shape,y.shape)
+
 
 
 
