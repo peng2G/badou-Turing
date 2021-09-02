@@ -17,3 +17,7 @@ class Sigmoid():
 
     def forward(self, z):
         return 1 / (1 + np.exp(-z))
+
+    def grad(self, x):
+        fn_x = self.forward(x)
+        return fn_x * (1 - fn_x)

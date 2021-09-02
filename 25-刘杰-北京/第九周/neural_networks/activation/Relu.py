@@ -17,3 +17,6 @@ class Relu():
 
     def forward(self, z):
         return np.clip(z, 0, np.inf)
+
+    def grad(self, x):
+        return (x > 0).astype(int)

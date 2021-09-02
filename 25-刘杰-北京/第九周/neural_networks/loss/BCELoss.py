@@ -9,6 +9,7 @@
 '''
 import numpy as np
 
+
 class BCELoss():
 
     def __init__(self):
@@ -24,3 +25,8 @@ class BCELoss():
         loss = -np.sum(y * np.log(y_pred) + (1 - y) * (np.log(1 - y_pred)))
         return loss
 
+    def grad(self, y_pred, y):
+        if y == 1:
+            -1 / y_pred
+        else:
+            1 / (1 - y_pred)
