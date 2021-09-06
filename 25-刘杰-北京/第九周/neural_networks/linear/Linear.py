@@ -30,6 +30,11 @@ class Liner():
         X = np.hstack((input, np.ones((batch_size, 1)))) if self.bias else input
         return np.dot(X, self.weights)
 
+
+    def grad(self,x):
+        x = x.numpy() if torch.is_tensor(x) else x
+        return x
+
     def __call__(self, input):
         return self.forward(input)
 

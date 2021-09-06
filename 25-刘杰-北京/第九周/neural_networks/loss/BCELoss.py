@@ -26,7 +26,12 @@ class BCELoss():
         return loss
 
     def grad(self, y_pred, y):
-        if y == 1:
-            -1 / y_pred
-        else:
-            1 / (1 - y_pred)
+        eps = np.finfo(float).eps
+        y_pred = np.clip(y_pred, eps, 1 - eps)
+
+        return np.where(y == 1, -1 / y_pred, 1 / (1 - y_pred))
+
+        # if y == 1:
+        #     return -1 / y_pred
+        # else:
+        #     return 1 / (1 - y_pred)
