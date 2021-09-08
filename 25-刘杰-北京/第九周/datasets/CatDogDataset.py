@@ -23,9 +23,9 @@ class CatDogDataset(Dataset):
             image = cv2.imread(path)
             gray = cv2.cvtColor(image, cv2.COLOR_RGB2GRAY)
             x = cv2.resize(gray, (28, 28), interpolation=cv2.INTER_AREA)
-            x = x /255
-            # y = np.array((1, 0)) if 'cat' in path else np.array((0, 1))
-            y = 1 if 'cat' in path else 0
+            x = x / 255
+            # y = np.array((1, 0)) if 'cat' in path.split('/')[-1] else np.array((0, 1))
+            y = 1 if 'cat' in path.split('/')[-1] else 0
             self.xs = np.append(self.xs, x)
             self.ys = np.append(self.ys, y)
         self.xs = self.xs.reshape((-1, 28 * 28))

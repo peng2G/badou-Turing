@@ -26,13 +26,12 @@ class Liner():
     def forward(self, input):
 
         batch_size = input.shape[0]
-        input = input.numpy() if torch.is_tensor(input) else input
+        input = input/np.linalg.norm(input)
         X = np.hstack((input, np.ones((batch_size, 1)))) if self.bias else input
         return np.dot(X, self.weights)
 
 
     def grad(self,x):
-        x = x.numpy() if torch.is_tensor(x) else x
         return x
 
     def __call__(self, input):

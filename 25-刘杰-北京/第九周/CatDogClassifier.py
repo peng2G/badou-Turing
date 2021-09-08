@@ -9,6 +9,7 @@
 '''
 
 import numpy as np
+import torch
 from torch.utils.data import DataLoader
 from datasets.CatDogDataset import CatDogDataset
 from neural_networks.linear.Linear import Liner
@@ -37,11 +38,11 @@ def get_model():
 
 
 def main():
-    image_path = "/Users/liujie/工作相关/data/test/*"
-    # image_path = "/Users/liujie/工作相关/data/dogcat/train/*"
+    # image_path = "/Users/liujie/工作相关/data/test/*"
+    image_path = "/Users/liujie/工作相关/data/dogcat/train/*"
     trn_dl = get_data(image_path)
     models, loss_fn = get_model()
-    lrn_rate = 0.001
+    lrn_rate = 0.1
     epoch_num = 5
 
     losses = []
@@ -54,6 +55,8 @@ def main():
             print("{} batch: ".format(ix))
 
             x, y = batch
+            x, y = (x.numpy(),y.numpy()) if torch.is_tensor(y) else (x, y)
+
             gradients = []
 
             for model in models:
@@ -61,24 +64,24 @@ def main():
                 gradients.append(np.mean(gradient))
                 x = model(x)
 
-            batch_loss = loss_fn(x, y.numpy())
+            batch_loss = loss_fn(x, y)
 
             epoch_losses.append(batch_loss)
 
-            gradient = np.mean(loss_fn.grad(x, y.numpy()))
+            gradient = np.mean(loss_fn.grad(x, y))
             print("the batch gradient is {}: ".format(gradient))
             print("the batch loss is {}: ".format(batch_loss))
 
+            if 0 not in gradients:
+                for model,grad in zip(models[::-1], gradients[::-1]):
 
-            for model,grad in zip(models[::-1], gradients[::-1]):
-
-                gradient *= grad
-                if isinstance(model,Liner):
-                    model.weights -= lrn_rate * gradient
+                    gradient *= grad
+                    if isinstance(model,Liner):
+                        model.weights -= lrn_rate * gradient
 
 
         epoch_loss = np.array(epoch_losses).mean()
-    losses.append(epoch_loss)
+        losses.append(epoch_loss)
     print(losses)
 
 
