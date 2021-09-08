@@ -20,18 +20,13 @@ class BCELoss():
 
     def forward(self, y_pred, y):
         eps = np.finfo(float).eps
-        y_pred = np.clip(y_pred, eps, 1 - eps)
+        np.clip(y_pred, eps, 1 - eps, y_pred)
 
-        loss = -np.sum(y * np.log(y_pred) + (1 - y) * (np.log(1 - y_pred)))
+        loss = -np.mean(y * np.log(y_pred) + (1 - y) * np.log(1 - y_pred))
         return loss
 
     def grad(self, y_pred, y):
         eps = np.finfo(float).eps
-        y_pred = np.clip(y_pred, eps, 1 - eps)
+        np.clip(y_pred, eps, 1 - eps, y_pred)
 
-        return np.where(y == 1, -1 / y_pred, 1 / (1 - y_pred))
-
-        # if y == 1:
-        #     return -1 / y_pred
-        # else:
-        #     return 1 / (1 - y_pred)
+        return (y_pred-y) / (y_pred * (1 - y_pred))

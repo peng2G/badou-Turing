@@ -8,7 +8,6 @@
 @Date    ：2021/8/27 下午4:41 
 '''
 import numpy as np
-import torch
 
 class Liner():
 
@@ -22,19 +21,15 @@ class Liner():
         else:
             self.weights = np.random.randn(self.in_features, self.out_features)
 
-
     def forward(self, input):
 
         batch_size = input.shape[0]
-        input = input.numpy() if torch.is_tensor(input) else input
+        input = input / np.linalg.norm(input)
         X = np.hstack((input, np.ones((batch_size, 1)))) if self.bias else input
         return np.dot(X, self.weights)
 
-
-    def grad(self,x):
-        x = x.numpy() if torch.is_tensor(x) else x
+    def grad(self, x):
         return x
 
     def __call__(self, input):
         return self.forward(input)
-
