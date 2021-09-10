@@ -3,7 +3,7 @@
 
 '''
 @Project ：badou-Turing 
-@File    ：fmnist_nn.py
+@File    ：fmnist_torch_nn.py
 @Author  ：luigi
 @Date    ：2021/9/8 5:57 下午 
 '''
