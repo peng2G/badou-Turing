@@ -39,7 +39,7 @@ criteria = (cv2.TERM_CRITERIA_EPS +
 flags = cv2.KMEANS_RANDOM_CENTERS
 
 #K-Means聚类 聚集成4类
-compactness, labels, centers = cv2.kmeans(data, 4, None, criteria, 10, flags)
+compactness, labels, centers = cv2.kmeans(data, 6, None, criteria, 10, flags)
 
 #生成最终图像
 dst = labels.reshape((img.shape[0], img.shape[1]))
