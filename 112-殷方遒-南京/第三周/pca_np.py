@@ -20,4 +20,4 @@ class PCA():  # PCA类
 pca = PCA(n_components=2)
 X = np.array([[-1, 2, 66, -1], [-2, 6, 58, -1], [-3, 8, 45, -2], [1, 9, 36, 1], [2, 10, 62, 1], [3, 5, 83, 2]])
 dimX = pca.fit_transform(X)
-print(dimX)  # 不知道哪里有问题 和其他pca输出结果第二维数据符号相反
+print(dimX)  # 和调用接口输出的第二维特征值符号相反

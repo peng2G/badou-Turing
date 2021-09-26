@@ -29,14 +29,14 @@ class CPCA(object):  # CPCA类 继承object类
         self.Z = self._Z()
 
     def _centr(self):  # 中心
-        mean = np.array([np.mean(attr) for attr in self.X.T])  # 转置均值
-        c = self.X - mean  # 矩阵各值与均值的差
-        # c = self.X - self.X.mean(axis=0)
+        # mean = np.array([np.mean(attr) for attr in self.X.T])  # 转置均值
+        # c = self.X - mean  # 矩阵各值与均值的差
+        c = self.X - self.X.mean(axis=0)
         return c
 
     def _cov(self):  # 协方差
-        #n = np.shape(self.centrX)[0]  # 中心化矩阵样本数
-        c = np.dot(self.centrX.T, self.centrX) / self.X.shape[0]  # 中心化样本矩阵协方差公式
+        # n = np.shape(self.centrX)[0]  # 中心化矩阵样本数
+        c = np.dot(self.centrX.T, self.centrX) / (self.centrX.shape[0] - 1)  # 中心化样本矩阵协方差公式
         return c
 
     def _U(self):  # 转换矩阵
@@ -53,7 +53,7 @@ class CPCA(object):  # CPCA类 继承object类
         return new_vecs
 
     def _Z(self):  # 降维矩阵
-        z = np.dot(self.X, self.U)
+        z = np.dot(self.centrX, self.U)  # waring 中心化矩阵与转换矩阵点积
         return z
 
 
@@ -61,4 +61,4 @@ if __name__ == "__main__":
     X = np.array([[-1, 2, 66, -1], [-2, 6, 58, -1], [-3, 8, 45, -2], [1, 9, 36, 1], [2, 10, 62, 1], [3, 5, 83, 2]])
     K = np.shape(X)[1] - 2
     pca = CPCA(X, K)
-    print(pca.Z)  # 为啥降维结果不一样
+    print(pca.Z)  # 和调用接口输出的第二维特征值符号相反
